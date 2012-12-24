@@ -16,15 +16,13 @@ require_once($CFG->dirroot.'/question/type/edit_question_form.php');
  * See http://docs.moodle.org/en/Development:lib/formslib.php for information
  * about the Moodle forms library, which is based on the HTML Quickform PEAR library.
  */
-class qtype_splitset_edit_form extends question_edit_form {
-
+class question_edit_splitset_form extends question_edit_form {
     function definition_inner(&$mform) {
         // TODO, add any form fields you need.
 
 		$options['2']= '2';
 		$options['3']= '3';
 		$options['4']= '4';
-		$options['5']= '5';
 		$mform->addElement('select', 'sets', get_string('sets', 'qtype_splitset'), $options);
         
 		$mform->addElement('text', 'set1name', get_string('name1', 'qtype_splitset'), array('size'=>'50'));
@@ -39,32 +37,26 @@ class qtype_splitset_edit_form extends question_edit_form {
 		$mform->addElement('text', 'set4name', get_string('name4', 'qtype_splitset'), array('size'=>'50'));
 		$mform->setType('name4', PARAM_CLEANHTML);
 
-		$mform->addElement('text', 'set5name', get_string('name5', 'qtype_splitset'), array('size'=>'50'));
-		$mform->setType('name5', PARAM_CLEANHTML);
-
-		$numoptions['0']= get_string('numericnum', 'qtype_splitset');
-		$numoptions['1']= get_string('alphanum', 'qtype_splitset');;
-		$numoptions['2']= get_string('alphasupnum', 'qtype_splitset');;
+		$numoptions['0'] = get_string('nonum', 'qtype_splitset');
+		$numoptions['1'] = get_string('numericnum', 'qtype_splitset');
+		$numoptions['2'] = get_string('alphanum', 'qtype_splitset');;
+		$numoptions['3'] = get_string('alphasupnum', 'qtype_splitset');;
 		$mform->addElement('select', 'numbering', get_string('numbering', 'qtype_splitset'), $numoptions);
 
 		$mform->addElement('checkbox', 'shuffleanswers', get_string('shuffleanswers', 'qtype_splitset'));
 		$mform->setType('shuffleanswers', PARAM_BOOL);
         
-        $mform->addElement('editor', 'correctfeedback', get_string('correctfeedback', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
-        $mform->setType('correctfeedback', PARAM_CLEANHTML);
-        $mform->addHelpButton('correctfeedback', 'correctfeedback', 'qtype_splitset');
+        $mform->addElement('htmleditor', 'feedbackok', get_string('feedbackok', 'qtype_splitset'), array('rows' => 10, 'course' => $this->coursefilesid));
+        $mform->setType('feedbackok', PARAM_CLEANHTML);
+        $mform->setHelpButton('feedbackok', array('feedbackok', get_string('feedbackok', 'qtype_splitset'), 'qtype_splitset'));
 
-        $mform->addElement('editor', 'partiallycorrectfeedback', get_string('partiallycorrectfeedback', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
-        $mform->setType('partiallycorrectfeedback', PARAM_CLEANHTML);
-        $mform->addHelpButton('partiallycorrectfeedback', 'partiallycorrectfeedback', 'qtype_splitset');
-
-        $mform->addElement('editor', 'incorrectfeedback', get_string('incorrectfeedback', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
-        $mform->setType('incorrectfeedback', PARAM_CLEANHTML);
-        $mform->addHelpButton('incorrectfeedback', 'incorrectfeedback', 'qtype_splitset');
+        $mform->addElement('htmleditor', 'feedbackmissed', get_string('feedbackmissed', 'qtype_splitset'), array('rows' => 10, 'course' => $this->coursefilesid));
+        $mform->setType('feedbackmissed', PARAM_CLEANHTML);
+        $mform->setHelpButton('feedbackmissed', array('feedbackmissed', get_string('feedbackmissed', 'qtype_splitset'), 'qtype_splitset'));
 
         $repeated = array();
         $repeated[] =& $mform->createElement('header', 'answerhdr', get_string('itemno', 'qtype_splitset', '{no}'));
-        $repeated[] =& $mform->createElement('editor', 'item', get_string('item', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
+        $repeated[] =& $mform->createElement('htmleditor', 'item', get_string('item', 'qtype_splitset'), array('rows' => 6, 'course' => $this->coursefilesid));
 
 		$defaultsets = (isset($this->question->options->sets)) ? $this->question->options->sets : 2 ;
 
@@ -96,25 +88,18 @@ class qtype_splitset_edit_form extends question_edit_form {
             $question->set2name = $question->options->set2name;
             $question->set3name = $question->options->set3name;
             $question->set4name = $question->options->set4name;
-            $question->set5name = $question->options->set5name;
-            $question->incorrectfeedback['text'] = $question->options->incorrectfeedback;
-            $question->incorrectfeedbackformat['format'] = $question->options->incorrectfeedbackformat;
-            $question->correctfeedback['text'] = $question->options->correctfeedback;
-            $question->correctfeedback['format'] = $question->options->correctfeedbackformat;
-            $question->partiallycorrectfeedback['text'] = $question->options->partiallycorrectfeedback;
-            $question->partiallycorrectfeedback['format'] = $question->options->partiallycorrectfeedbackformat;
+            $question->feedbackok = $question->options->feedbackok;
+            $question->feedbackmissed = $question->options->feedbackmissed;
              
             if (!empty($question->options->items)){
             	$i = 0;
             	foreach($question->options->items as $item){
-            		$itemeditor = array();
-            		$itemeditor['text'] = $item->item;
-            		$itemeditor['format'] = $item->itemformat;
-            		$question->item[] = $itemeditor;
+            		$question->item[] = $item->item;
             		$question->set[] = $item->answer;
             		$i++;
             	}
-			}			
+			}
+			
         }
         parent::set_data($question);
     }

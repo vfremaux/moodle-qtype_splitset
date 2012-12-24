@@ -1,0 +1,80 @@
+<div class="qtext">
+    <?php echo $questiontext; ?>
+</div>
+
+<?php if ($image) { ?>
+    <img class="qimage" src="<?php echo $image; ?>" alt="" />
+<?php } ?>
+
+<div class="ablock clearfix">
+    <!-- TODO add the form controls that the student will use to enter their response. -->
+
+    <?php 
+    if ($feedback) { 
+    ?>
+        <div class="feedback <?php echo $feedbackclass ?>">
+            <?php echo $feedback ?>
+        </div>
+	<?php    		
+	} 
+    ?>
+    
+    <?php
+    
+    echo '<table width="100%" class="generaltable">';
+    echo '<tr valign="top" class=" header r0">';
+	if (!empty($question->options->numbering)){
+	    echo '<td width="5%" class="header c0"></td>';
+	}
+    echo '<td width="50%" class="header c1"></td>';
+    for($i = 1; $i <= $question->options->sets; $i++){
+    	$optionkey = 'set'.$i.'name';
+		$lastcol = ($i == $question->options->sets - 1) ? ' lastcol' : '';
+    	echo '<td align="center" class="c'.($i+1).$lastcol.' header">'.$question->options->$optionkey.'</td>';
+    }
+	echo '</tr>';
+	
+    if ($question->options->items){
+
+		$itemids = array_keys($question->options->items);
+	    if (!empty($cmoptions->shuffleanswers) and !empty($question->options->shuffleanswers)) {
+	       $itemids = swapshuffle($itemids);
+	    }	
+	    
+    	$j = 0;
+		foreach($itemids as $itemid){
+			$item = $question->options->items[$itemid];
+			$lastrow = ($j == count($question->options->items)) ? $lastrow = ' lastrow' : '' ;
+			$odd = $j % 2;
+			echo '<tr valign="top" class="splitset r'.$odd.'">';
+			if (!empty($question->options->numbering)){
+				echo '<td width="5%" class="splitset c0">';
+				echo '<span class="itemcode">'.$item->code.'.&nbsp;&nbsp;</span>';
+				echo '</td>';
+			}
+			echo '<td width="50%" class="splitset c1">';
+			echo $item->item;
+			echo '</td>';
+		    for($i = 0; $i < $question->options->sets; $i++){
+		    	$optionkey = 'set'.$i.'name';
+				$itemkey = $question->name_prefix.$item->id;
+				$checked = (($i + 1) == @$responses[$item->id]) ? 'checked="checked"' : '' ;
+				$class = '';
+				if ($options->feedback){
+					$class = question_get_feedback_class(@$responses[$item->id] == $item->answer);
+				}
+				$lastcol = ($i == $question->options->sets - 1) ? ' lastcol' : '';
+				echo '<td align="center" class="'.$lastrow.' c'.($i+3).$lastcol.'"><span class="'.$class.'">';
+				echo '<input type="radio" name="'.$itemkey.'" value="'.($i + 1).'" '.$checked.' '.$readonly.' />';
+				echo '</span></td>';
+			}
+			echo '</tr>';
+			$j = ($j + 1) % 2;
+		}
+	}
+    echo '</table>';
+    echo '<br/>';
+    ?>
+
+    <?php $this->print_question_submit_buttons($question, $state, $cmoptions, $options); ?>
+</div>
