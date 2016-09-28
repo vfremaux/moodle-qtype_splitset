@@ -1,12 +1,28 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * The editing form code for this question type.
  *
+ * @since      2.0
+ * @package    qtype_splitset
  * @copyright &copy; 2006 Valery Fremaux
  * @author valery.fremaux@club-internet.fr
- * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
- * @package splitset
- *//** */
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ */
 
 require_once($CFG->dirroot.'/question/type/edit_question_form.php');
 
@@ -18,37 +34,37 @@ require_once($CFG->dirroot.'/question/type/edit_question_form.php');
  */
 class qtype_splitset_edit_form extends question_edit_form {
 
-    function definition_inner(&$mform) {
+    function definition_inner($mform) {
         // TODO, add any form fields you need.
 
-		$options['2']= '2';
-		$options['3']= '3';
-		$options['4']= '4';
-		$options['5']= '5';
-		$mform->addElement('select', 'sets', get_string('sets', 'qtype_splitset'), $options);
-        
-		$mform->addElement('text', 'set1name', get_string('name1', 'qtype_splitset'), array('size'=>'50'));
-		$mform->setType('name1', PARAM_CLEANHTML);
+        $options['2']= '2';
+        $options['3']= '3';
+        $options['4']= '4';
+        $options['5']= '5';
+        $mform->addElement('select', 'sets', get_string('sets', 'qtype_splitset'), $options);
 
-		$mform->addElement('text', 'set2name', get_string('name2', 'qtype_splitset'), array('size'=>'50'));
-		$mform->setType('name2', PARAM_CLEANHTML);
+        $mform->addElement('text', 'set1name', get_string('name1', 'qtype_splitset'), array('size'=>'50'));
+        $mform->setType('name1', PARAM_CLEANHTML);
 
-		$mform->addElement('text', 'set3name', get_string('name3', 'qtype_splitset'), array('size'=>'50'));
-		$mform->setType('name3', PARAM_CLEANHTML);
+        $mform->addElement('text', 'set2name', get_string('name2', 'qtype_splitset'), array('size'=>'50'));
+        $mform->setType('name2', PARAM_CLEANHTML);
 
-		$mform->addElement('text', 'set4name', get_string('name4', 'qtype_splitset'), array('size'=>'50'));
-		$mform->setType('name4', PARAM_CLEANHTML);
+        $mform->addElement('text', 'set3name', get_string('name3', 'qtype_splitset'), array('size'=>'50'));
+        $mform->setType('name3', PARAM_CLEANHTML);
 
-		$mform->addElement('text', 'set5name', get_string('name5', 'qtype_splitset'), array('size'=>'50'));
-		$mform->setType('name5', PARAM_CLEANHTML);
+        $mform->addElement('text', 'set4name', get_string('name4', 'qtype_splitset'), array('size'=>'50'));
+        $mform->setType('name4', PARAM_CLEANHTML);
 
-		$numoptions['0']= get_string('numericnum', 'qtype_splitset');
-		$numoptions['1']= get_string('alphanum', 'qtype_splitset');;
-		$numoptions['2']= get_string('alphasupnum', 'qtype_splitset');;
-		$mform->addElement('select', 'numbering', get_string('numbering', 'qtype_splitset'), $numoptions);
+        $mform->addElement('text', 'set5name', get_string('name5', 'qtype_splitset'), array('size'=>'50'));
+        $mform->setType('name5', PARAM_CLEANHTML);
 
-		$mform->addElement('checkbox', 'shuffleanswers', get_string('shuffleanswers', 'qtype_splitset'));
-		$mform->setType('shuffleanswers', PARAM_BOOL);
+        $numoptions['0'] = get_string('numericnum', 'qtype_splitset');
+        $numoptions['1'] = get_string('alphanum', 'qtype_splitset');;
+        $numoptions['2'] = get_string('alphasupnum', 'qtype_splitset');
+        $mform->addElement('select', 'numbering', get_string('numbering', 'qtype_splitset'), $numoptions);
+
+        $mform->addElement('checkbox', 'shuffleanswers', get_string('shuffleanswers', 'qtype_splitset'));
+        $mform->setType('shuffleanswers', PARAM_BOOL);
         
         $mform->addElement('editor', 'correctfeedback', get_string('correctfeedback', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
         $mform->setType('correctfeedback', PARAM_CLEANHTML);
@@ -66,12 +82,12 @@ class qtype_splitset_edit_form extends question_edit_form {
         $repeated[] =& $mform->createElement('header', 'answerhdr', get_string('itemno', 'qtype_splitset', '{no}'));
         $repeated[] =& $mform->createElement('editor', 'item', get_string('item', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
 
-		$defaultsets = (isset($this->question->options->sets)) ? $this->question->options->sets : 2 ;
+        $defaultsets = (isset($this->question->options->sets)) ? $this->question->options->sets : 2 ;
 
-		for($i = 1; $i <= $defaultsets ; $i++){
-			$setoptions[$i]= "$i";
-		}
-		$repeated[] =& $mform->createElement('select', 'set', get_string('set', 'qtype_splitset'), $setoptions);
+        for($i = 1; $i <= $defaultsets ; $i++){
+            $setoptions[$i]= "$i";
+        }
+        $repeated[] =& $mform->createElement('select', 'set', get_string('set', 'qtype_splitset'), $setoptions);
         if (isset($this->question->options)){
             $countanswers = count($this->question->options->items);
         } else {
@@ -92,11 +108,11 @@ class qtype_splitset_edit_form extends question_edit_form {
             $question->sets = $question->options->sets;
             $question->numbering = $question->options->numbering;
             $question->shuffleanswers = $question->options->shuffleanswers;
-            $question->set1name = $question->options->set1name;
-            $question->set2name = $question->options->set2name;
-            $question->set3name = $question->options->set3name;
-            $question->set4name = $question->options->set4name;
-            $question->set5name = $question->options->set5name;
+            $question->set1name = @$question->options->set1name;
+            $question->set2name = @$question->options->set2name;
+            $question->set3name = @$question->options->set3name;
+            $question->set4name = @$question->options->set4name;
+            $question->set5name = @$question->options->set5name;
             $question->incorrectfeedback['text'] = $question->options->incorrectfeedback;
             $question->incorrectfeedbackformat['format'] = $question->options->incorrectfeedbackformat;
             $question->correctfeedback['text'] = $question->options->correctfeedback;
@@ -105,21 +121,21 @@ class qtype_splitset_edit_form extends question_edit_form {
             $question->partiallycorrectfeedback['format'] = $question->options->partiallycorrectfeedbackformat;
              
             if (!empty($question->options->items)){
-            	$i = 0;
-            	foreach($question->options->items as $item){
-            		$itemeditor = array();
-            		$itemeditor['text'] = $item->item;
-            		$itemeditor['format'] = $item->itemformat;
-            		$question->item[] = $itemeditor;
-            		$question->set[] = $item->answer;
-            		$i++;
-            	}
-			}			
+                $i = 0;
+                foreach($question->options->items as $item){
+                    $itemeditor = array();
+                    $itemeditor['text'] = $item->item;
+                    $itemeditor['format'] = 0 + @$item->itemformat;
+                    $question->item[] = $itemeditor;
+                    $question->set[] = $item->answer;
+                    $i++;
+                }
+            }
         }
         parent::set_data($question);
     }
 
-    function validation($data) {
+    function validation($data, $files = array()) {
         $errors = array();
 
         // TODO, do extra validation on the data that came back from the form. E.g.
@@ -138,4 +154,3 @@ class qtype_splitset_edit_form extends question_edit_form {
         return 'splitset';
     }
 }
-?>

@@ -29,7 +29,6 @@ $string['name4'] = 'Set 4 name';
 $string['name5'] = 'Set 5 name';
 $string['numbering'] = 'Numbering style';
 $string['numericnum'] = '1,2,3... ';
-$string['pluginname'] = 'Set splitting question';
 $string['set'] = 'Correct answer';
 $string['sets'] = 'Number of sets';
 $string['shuffleanswers'] = 'Shuffle set elements';
@@ -45,8 +44,12 @@ etc.</p>
 <p>Then he will provide the input set. Each input can be entered as a formatted
 paragraph and will be able to use images or any HTML Editor inserts.</p>
 <p>All items must have one unique output and all items are equivalent (no weighting)</p>';
-$string['splitsetsummary'] = 'Presents a list of question sharing the same answer set. The student can answer all provided questions in a single page.';
 $string['pluginname'] = 'Set splitting.';
+$string['pluginnamesummary'] = 'Presents a list of question sharing the same answer set. The student can answer all provided questions in a single page.';
+$string['pluginname_help'] = 'Edit a serie of question that spread scores upon a serie of outputs.';
+$string['pluginname_link'] = 'question/type/splitset';
+$string['pluginnameadding'] = 'Adding splitset markers';
+$string['pluginnameediting'] = 'Editing splitset markers';
 
 // TODO add any other requred strings.
 

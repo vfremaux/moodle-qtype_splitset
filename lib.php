@@ -17,22 +17,21 @@
 /**
  * Serve question type files
  *
- * @since      2.0
- * @package    qtype
- * @subpackage splitset
- * @copyright  Dongsheng Cai <dongsheng@moodle.com>
+ * @since 2.0
+ * @package    qtype_splitset
+ * @copyright &copy; 2006 Valery Fremaux
+ * @author valery.fremaux@club-internet.fr
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * Checks file access for matching questions.
  */
 function qtype_splitset_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
     global $DB, $CFG;
+
     require_once($CFG->libdir . '/questionlib.php');
     question_pluginfile($course, $context, 'qtype_splitset', $filearea, $args, $forcedownload);
 }

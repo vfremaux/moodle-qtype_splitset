@@ -28,7 +28,6 @@ $string['name4'] = 'Nom de la catégorie 4';
 $string['name5'] = 'Nom de la catégorie 5';
 $string['numbering'] = 'Numérotation des propositions';
 $string['numericnum'] = '1,2,3... ';
-$string['pluginname'] = 'Question de répartition';
 $string['set'] = 'Bonne réponse';
 $string['sets'] = 'Nombre de catégories';
 $string['shuffleanswers'] = 'Mélanger les propositions';
@@ -46,6 +45,10 @@ etc.</p>
 <p>Les propositions doivent être associées à un ensemble uniquement, et tous les items ont un poids équivalent (pas de pondération)</p>';
 $string['pluginname'] = 'Question de répartition';
 $string['splitsetsummary'] = 'Présente une liste de questions partageant le même jeu de réponses. L\'étudiant peut répondre à l\'ensemble des questions sur la même page.';
+$string['pluginname_help'] = 'Edite une série de questions qui répartit les réponses sur un ensemble de réponses.';
+$string['pluginname_link'] = 'question/type/splitset';
+$string['pluginnameadding'] = 'Ajouter une question de répartition';
+$string['pluginnameediting'] = 'Modifier une question de répartition';
 
 // TODO add any other requred strings.
 

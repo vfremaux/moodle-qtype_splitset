@@ -14,18 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Matching question definition class.
  *
- * @package    qtype
- * @subpackage match
- * @copyright  2012 Valery Fremaux (valery.fremaux@gmail.com)
+ * @package    qtype_splitset
+ * @copyright &copy; 2006 Valery Fremaux
+ * @author valery.fremaux@gmail.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-
-defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * Represents a splitset question.
@@ -54,30 +52,28 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
     /** @var array shuffled item indexes. */
     protected $itemorder;
 
-	/**
-	* Stores in attempt state specific question scope internal states and question instance setings
-	*/
+    /**
+     * Stores in attempt state specific question scope internal states and question instance setings
+     */
     public function start_attempt(question_attempt_step $step, $variant) {
-    	
+
         $this->itemorder = array_keys($this->items);
         if ($this->shuffleitems) {
             shuffle($this->itemorder);
         }
         $step->set_qt_var('_itemorder', implode(',', $this->itemorder));
-
     }
 
-	/**
-	* Resotres form state some internal instance specific settings
-	*/
+    /**
+     * Resotres form state some internal instance specific settings
+     */
     public function apply_attempt_state(question_attempt_step $step) {
         $this->itemorder = explode(',', $step->get_qt_var('_itemorder'));
     }
 
-	/**
-	* Computes a printable summary fro the question 
-	*
-	*/
+    /**
+     * Computes a printable summary fro the question 
+     */
     public function get_question_summary() {
         $question = $this->html_to_text($this->questiontext, $this->questiontextformat);
 
@@ -88,7 +84,7 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
 
         return $question . ' {' . implode('; ', $items) . '}';
     }
-    
+
     public function classify_response(array $response) {
         $selectedchoices = array();
 
@@ -114,10 +110,9 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
         return $parts;
     }
 
-	/**
-	* Computes a printable form of the response
-	*
-	*/
+    /**
+     * Computes a printable form of the response
+     */
     public function summarise_response(array $response) {
         $matches = array();
         foreach ($this->itemorder as $key => $itemid) {
@@ -131,10 +126,9 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
         return implode('; ', $matches);
     }
 
-	/**
-	* we use this function to set a true 0 as choice in unanswered or erroneous subresponses.
-	*
-	*/
+    /**
+     * we use this function to set a true 0 as choice in unanswered or erroneous subresponses.
+     */
     public function clear_wrong_from_response(array $response) {
         foreach ($this->itemorder as $key => $itemid) {
             if (!array_key_exists('sub'.$key, $response) || $response['sub'.$key] != $this->choices[$itemid]) {
@@ -153,17 +147,16 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
         return $vars;
     }
 
-	/**
-	* tells how many subquestions are correct
-	*/
-    public function get_num_parts_right($response) {
-    	$right = 0;
-    	    	
+    /**
+     * tells how many subquestions are correct
+     */
+    public function get_num_parts_right(array $response) {
+        $right = 0;
+
         foreach ($this->itemorder as $key => $itemid) {
             if ($response['sub'.$key] == $this->choices[$itemid]) $right++ ;
             $total ++;
         }
-        
         return(array($right, $total));
     }
 
@@ -211,22 +204,20 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
     }
 
     public function grade_response(array $response) {
-    	
-		$good = 0;
-		$total = 0;
+        $good = 0;
+        $total = 0;
         foreach ($this->itemorder as $key => $itemid) {
             if ($response['sub'.$key] == $this->choices[$itemid]){
-            	$good += 1;
+                $good += 1;
             }
             $total += 1;
         }
         $fraction = $good / $total;
         return array($fraction, question_state::graded_state_for_fraction($fraction));
-
     }
 
-	// compute grade by counting correct answered, bad answered and unanswered with penalty 
-	// @see matches for computation model
+    // compute grade by counting correct answered, bad answered and unanswered with penalty 
+    // @see matches for computation model
     public function compute_final_grade($responses, $totaltries) {
         $totalitemscore = 0;
 

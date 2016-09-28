@@ -26,7 +26,7 @@ class qtype_splitset extends question_type {
     /**
      * @return boolean to indicate success of failure.
      */
-    function get_question_options(&$question) {
+    function get_question_options($question) {
     	global $DB;
         // TODO code to retrieve the extra data you stored in the database into
         
@@ -153,7 +153,7 @@ class qtype_splitset extends question_type {
 		// transfer items and expected answers into question        
         foreach ($questiondata->options->items as $itemid => $item) {
             $question->items[$itemid] = $item->item;
-            $question->itemformats[$itemid] = $item->itemformat;
+            $question->itemformats[$itemid] = 0 + @$item->itemformat;
             $question->choices[$itemid] = $item->answer;
         }        
     }
@@ -235,114 +235,6 @@ class qtype_splitset extends question_type {
         $this->delete_files_in_combined_feedback($questionid, $contextid);
         $this->delete_files_in_hints($questionid, $contextid);
     }
-
-    /// Moodle 1.9 point
-    
-    /*
-    
-    function create_session_and_responses(&$question, &$state, $cmoptions, $attempt) {
-		global $DB;
-		
-		// echo "CREATING STATE ";
-		// print_object($state);
-
-        if (!$subquestions = $DB->get_records('question_splitset_sub', array('questionid' => $question->id), 'id ASC')) {
-            notify('Error: Missing items!');
-            return false;
-        }
-
-        // Place the subquestions into the state options keyed by id
-        foreach ($subquestions as $subquestion) {
-            $state->options->subquestions[$subquestion->id] = $subquestion;
-        }
-
-		$state->responses = array();
-        foreach ($state->options->subquestions as $key => $subquestion) {
-            // This seems rather over complicated, but it is useful for the
-            // randomsamatch questiontype, which can then inherit the print
-            // and grading functions. This way it is possible to define multiple
-            // answers per question, each with different marks and feedback.
-        	$state->responses[$key] = '';
-        }
-
-        // Add default defaultresponse value
-        $state->options->defaultresponse = '';
-        
-        // set response array to empty
-
-		// echo "CREATING STATE : Output state ";
-		// print_object($state);
-
-        return true;
-    }
-
-    function restore_session_and_responses(&$question, &$state) {
-		global $DB;
-		// echo 'RESTORING ';
-		// print_object($state);
-
-        // The serialized format for splitset questions is a comma separated
-        // list of item-answer pairs (e.g. 1-1,2-1,3-2), where the id of
-        // the item in table question_order_sub is mapped to the set id.
-        if (isset($state->answer)){
-	        $responses = explode(',', $state->answer);
-	    } else {
-	    	// we have responses submitted but not recorded
-	        $responses = explode(',', array_pop($state->responses));	
-	    }
-	    
-        if (!$state->options->subquestions = $DB->get_records('question_splitset_sub', array('questionid' => $question->id), 'id ASC')) {
-            notify('Error: Missing subquestions!');
-            return false;
-        }
-
-        // Place the questions into the state options and restore the
-        // previous answers
-        $state->responses = array();
-        if (!empty($responses)){
-	        foreach ($responses as $response) {
-	        	list($key, $answer) = explode('-', $response);
-	            $state->responses[$key] = $answer;
-	        }
-	    }
-
-		// echo "RESTORING state out";
-		// print_object($state);
-
-        return true;
-    }
-    
-    function save_session_and_responses(&$question, &$state) {
-    	global $DB;
-    	
-        // TODO package up the students response from the $state->responses
-        // array into a string and save it in the question_states.answer field.
-
-		// echo 'SAVING ';
-		// print_object($state);
-        
-        $subquestions = &$state->options->subquestions;
-        $responses = &$state->options->responses;
-
-        // Serialize responses
-        $responses = array();
-        foreach ($subquestions as $key => $subquestion) {
-            $response = 0;
-            if ($subquestion->item) {
-                if (isset($state->responses[$key])) {
-                    $response = $state->responses[$key];
-                }
-            }
-            $responses[] = $key.'-'.$response;
-        }
-        $responses = implode(',', $responses);
-
-        // Set the legacy answer field
-        if (!$DB->set_field('question_states', 'answer', $responses, array('id' => $state->id))) {
-            return false;
-        }
-    }
-    */
 }
 
 ?>

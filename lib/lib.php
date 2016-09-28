@@ -18,15 +18,13 @@
  * Serve question type files
  *
  * @since      2.0
- * @package    qtype
- * @subpackage match
- * @copyright  Dongsheng Cai <dongsheng@moodle.com>
+ * @package    qtype_splitset
+ * @copyright &copy; 2006 Valery Fremaux
+ * @author valery.fremaux@gmail.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-
 defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * Checks file access for matching questions.

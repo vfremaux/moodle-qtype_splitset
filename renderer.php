@@ -14,18 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
+defined('MOODLE_INTERNAL') || die();
+
 /**
  * Defines the 'missingtype' question renderer class.
  *
- * @package    qtype
- * @subpackage splitset
+ * @package    qtype_splitset
  * @copyright  2012 Valery Fremaux (valery.fremaux@gmail.com)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-
-
-defined('MOODLE_INTERNAL') || die();
-
 
 /**
  * This question renderer class is used when the actual question type of this
@@ -41,8 +38,8 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
         $question  = $qa->get_question();
         $itemorder = $question->get_item_order();
         $response  = $qa->get_last_qt_data();
-        
-		$result = '';    	
+
+        $result = '';
         $result .= html_writer::tag('div', $question->format_questiontext($qa), array('class' => 'qtext'));
 
         $result .= html_writer::start_tag('div', array('class' => 'ablock'));
@@ -52,8 +49,8 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
         $result .= html_writer::start_tag('tr', array('class' => 'header'));
         $result .= html_writer::tag('th', '', array('class' => 'header c0'));
 
-		$i = 1;
-		foreach($question->sets as $setid => $set){
+        $i = 1;
+        foreach ($question->sets as $setid => $set) {
             $classes = 'c'.$i;
             $result .= html_writer::tag('td', $set, array('class' => $classes));
             $i++;
@@ -70,33 +67,34 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
                     $qa, 'qtype_splitset', 'subquestion', $itemid),
                     array('class' => 'text'));
 
-
             if (array_key_exists($fieldname, $response)) {
                 $selected = $response[$fieldname];
             } else {
                 $selected = 0;
             }
-            
-            
-			foreach($question->sets as $setid => $set){
 
-	            $classes = 'control';
-	            $feedbackimage = '';
-	            	
-				// mark good response
-            	$success = (int) ($question->choices[$itemid] == $setid);	            
-	            if ($options->correctness && $selected) {
-	                $classes .= ' ' . $this->feedback_class($success);
-	                $feedbackimage = $this->feedback_image($success);
-	            }
+            foreach($question->sets as $setid => $set) {
 
-				// mark given response
-            	$fraction = (int) ($selected && ($selected == $setid));	            
-	            $checked = ($fraction) ? 'checked="checked"' : '' ;
+                $classes = 'control';
+                $feedbackimage = '';
 
-				$optionradio = '<input type="radio" name="'.$qa->get_qt_field_name($fieldname).'" value="'.$setid.'" '.$checked.' />';
-	            $result .= html_writer::tag('td', $optionradio.' '.$feedbackimage, array('class' => $classes));
-	        }
+                // mark good response
+                $isgood = (int) ($question->choices[$itemid] == $setid);
+
+                // mark given response
+                $fraction = (int) ($selected && ($selected == $setid));
+                $checked = ($fraction) ? 'checked="checked"' : '' ;
+
+                if ($options->correctness && $selected) {
+                    if ($fraction) {
+                        $classes = $this->feedback_class($isgood);
+                    }
+                    $feedbackimage = $this->feedback_image($isgood);
+                }
+
+                $optionradio = '<input type="radio" name="'.$qa->get_qt_field_name($fieldname).'" value="'.$setid.'" '.$checked.' />';
+                $result .= html_writer::tag('td', $optionradio.' '.$feedbackimage, array('class' => $classes));
+            }
 
             $result .= html_writer::end_tag('tr');
             $parity = 1 - $parity;
@@ -112,8 +110,8 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
                     array('class' => 'validationerror'));
         }
 
-		return $result;   	
-	}
+        return $result;
+    }
 
     public function correct_response(question_attempt $qa) {
 
