@@ -14,17 +14,16 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Unit tests for this question type.
  *
- * @copyright &copy; 2011 Valery Fremaux
- * @author valery.fremaux@gmail.com
- * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
- * @package qtype_splitset
- * @category qtype
+ * @package     qtype_splitset
+ * @category    qtype
+ * @copyright   (C) 2011 Valery Fremaux
+ * @author      valery.fremaux@gmail.com
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU Public License
  */
+defined('MOODLE_INTERNAL') || die();
 
 require_once(dirname(__FILE__) . '/../../../../config.php');
 

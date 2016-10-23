@@ -17,12 +17,12 @@
 /**
  * The editing form code for this question type.
  *
- * @since      2.0
- * @package    qtype_splitset
- * @copyright &copy; 2006 Valery Fremaux
- * @author valery.fremaux@club-internet.fr
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_splitset
+ * @copyright   (C) 2006 onwards Valery Fremaux
+ * @author      valery.fremaux@club-internet.fr
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
 require_once($CFG->dirroot.'/question/type/edit_question_form.php');
 
@@ -34,7 +34,7 @@ require_once($CFG->dirroot.'/question/type/edit_question_form.php');
  */
 class qtype_splitset_edit_form extends question_edit_form {
 
-    function definition_inner($mform) {
+    public function definition_inner($mform) {
         // TODO, add any form fields you need.
 
         $options['2']= '2';
@@ -84,11 +84,11 @@ class qtype_splitset_edit_form extends question_edit_form {
 
         $defaultsets = (isset($this->question->options->sets)) ? $this->question->options->sets : 2 ;
 
-        for($i = 1; $i <= $defaultsets ; $i++){
-            $setoptions[$i]= "$i";
+        for ($i = 1; $i <= $defaultsets; $i++) {
+            $setoptions[$i] = "$i";
         }
         $repeated[] =& $mform->createElement('select', 'set', get_string('set', 'qtype_splitset'), $setoptions);
-        if (isset($this->question->options)){
+        if (isset($this->question->options)) {
             $countanswers = count($this->question->options->items);
         } else {
             $countanswers = 0;
@@ -100,7 +100,7 @@ class qtype_splitset_edit_form extends question_edit_form {
         // $mform->addElement( ... );
     }
 
-    function set_data($question) {
+    public function set_data($question) {
         // TODO, preprocess the question definition so the data is ready to load into the form.
         // You may not need this method at all, in which case you can delete it.
 
@@ -120,9 +120,9 @@ class qtype_splitset_edit_form extends question_edit_form {
             $question->partiallycorrectfeedback['text'] = $question->options->partiallycorrectfeedback;
             $question->partiallycorrectfeedback['format'] = $question->options->partiallycorrectfeedbackformat;
              
-            if (!empty($question->options->items)){
+            if (!empty($question->options->items)) {
                 $i = 0;
-                foreach($question->options->items as $item){
+                foreach ($question->options->items as $item) {
                     $itemeditor = array();
                     $itemeditor['text'] = $item->item;
                     $itemeditor['format'] = 0 + @$item->itemformat;
@@ -135,7 +135,7 @@ class qtype_splitset_edit_form extends question_edit_form {
         parent::set_data($question);
     }
 
-    function validation($data, $files = array()) {
+    public function validation($data, $files = array()) {
         $errors = array();
 
         // TODO, do extra validation on the data that came back from the form. E.g.
@@ -150,7 +150,7 @@ class qtype_splitset_edit_form extends question_edit_form {
         }
     }
 
-    function qtype() {
+    public function qtype() {
         return 'splitset';
     }
 }

@@ -17,7 +17,6 @@
 /**
  * Serve question type files
  *
- * @since 2.0
  * @package    qtype_splitset
  * @copyright &copy; 2006 Valery Fremaux
  * @author valery.fremaux@club-internet.fr

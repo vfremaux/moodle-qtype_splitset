@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Defines the 'missingtype' question renderer class.
  *
- * @package    qtype_splitset
- * @copyright  2012 Valery Fremaux (valery.fremaux@gmail.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_splitset
+ * @category    qtype
+ * @copyright   2012 Valery Fremaux (valery.fremaux@gmail.com)
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * This question renderer class is used when the actual question type of this
@@ -60,7 +60,7 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
         foreach ($itemorder as $key => $itemid) {
 
             $result .= html_writer::start_tag('tr', array('class' => 'r' . $parity));
-            $fieldname = 'sub' . $key;
+            $fieldname = 'sub'.$key;
 
             $result .= html_writer::tag('td', $question->format_text(
                     $question->items[$itemid], $question->itemformats[$itemid],
@@ -73,15 +73,15 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
                 $selected = 0;
             }
 
-            foreach($question->sets as $setid => $set) {
+            foreach ($question->sets as $setid => $set) {
 
                 $classes = 'control';
                 $feedbackimage = '';
 
-                // mark good response
+                // Mark good response.
                 $isgood = (int) ($question->choices[$itemid] == $setid);
 
-                // mark given response
+                // Mark given response.
                 $fraction = (int) ($selected && ($selected == $setid));
                 $checked = ($fraction) ? 'checked="checked"' : '' ;
 
