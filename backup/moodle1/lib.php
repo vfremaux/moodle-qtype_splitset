@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -43,6 +42,7 @@ class moodle1_qtype_splitset_handler extends moodle1_qtype_handler {
      * Appends the essay specific information to the question
      */
     public function process_question(array $data, array $raw) {
+        global $CFG;
 
         // populate the list of matches first to get their ids
         // note that the field is re-populated on restore anyway but let us

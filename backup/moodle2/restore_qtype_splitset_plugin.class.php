@@ -134,7 +134,6 @@ class restore_qtype_splitset_plugin extends restore_qtype_plugin {
      * should not have anyhing to do here
      */
     protected function after_execute_question() {
-        global $DB;
     }
 
     /**

@@ -28,14 +28,13 @@ require_once($CFG->dirroot.'/question/type/edit_question_form.php');
 
 /**
  * splitset editing form definition.
- * 
+ *
  * See http://docs.moodle.org/en/Development:lib/formslib.php for information
  * about the Moodle forms library, which is based on the HTML Quickform PEAR library.
  */
 class qtype_splitset_edit_form extends question_edit_form {
 
     public function definition_inner($mform) {
-        // TODO, add any form fields you need.
 
         $options['2']= '2';
         $options['3']= '3';
@@ -65,22 +64,26 @@ class qtype_splitset_edit_form extends question_edit_form {
 
         $mform->addElement('checkbox', 'shuffleanswers', get_string('shuffleanswers', 'qtype_splitset'));
         $mform->setType('shuffleanswers', PARAM_BOOL);
-        
-        $mform->addElement('editor', 'correctfeedback', get_string('correctfeedback', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
+
+        $label = get_string('correctfeedback', 'qtype_splitset');
+        $mform->addElement('editor', 'correctfeedback', $label, array('rows' => 5), $this->editoroptions);
         $mform->setType('correctfeedback', PARAM_CLEANHTML);
         $mform->addHelpButton('correctfeedback', 'correctfeedback', 'qtype_splitset');
 
-        $mform->addElement('editor', 'partiallycorrectfeedback', get_string('partiallycorrectfeedback', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
+        $label = get_string('partiallycorrectfeedback', 'qtype_splitset');
+        $mform->addElement('editor', 'partiallycorrectfeedback', $label, array('rows' => 5), $this->editoroptions);
         $mform->setType('partiallycorrectfeedback', PARAM_CLEANHTML);
         $mform->addHelpButton('partiallycorrectfeedback', 'partiallycorrectfeedback', 'qtype_splitset');
 
-        $mform->addElement('editor', 'incorrectfeedback', get_string('incorrectfeedback', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
+        $label = get_string('incorrectfeedback', 'qtype_splitset');
+        $mform->addElement('editor', 'incorrectfeedback', $label, array('rows' => 5), $this->editoroptions);
         $mform->setType('incorrectfeedback', PARAM_CLEANHTML);
         $mform->addHelpButton('incorrectfeedback', 'incorrectfeedback', 'qtype_splitset');
 
         $repeated = array();
         $repeated[] =& $mform->createElement('header', 'answerhdr', get_string('itemno', 'qtype_splitset', '{no}'));
-        $repeated[] =& $mform->createElement('editor', 'item', get_string('item', 'qtype_splitset'), array('rows' => 5), $this->editoroptions);
+        $label = get_string('item', 'qtype_splitset');
+        $repeated[] =& $mform->createElement('editor', 'item', $label, array('rows' => 5), $this->editoroptions);
 
         $defaultsets = (isset($this->question->options->sets)) ? $this->question->options->sets : 2 ;
 
@@ -93,16 +96,15 @@ class qtype_splitset_edit_form extends question_edit_form {
         } else {
             $countanswers = 0;
         }
-        $repeatsatstart = (QUESTION_NUMANS_START > ($countanswers + QUESTION_NUMANS_ADD))? QUESTION_NUMANS_START : ($countanswers + QUESTION_NUMANS_ADD);
+        $add = QUESTION_NUMANS_START > ($countanswers + QUESTION_NUMANS_ADD);
+        $repeatsatstart = ($add) ? QUESTION_NUMANS_START : ($countanswers + QUESTION_NUMANS_ADD);
         $repeatedoptions = array();
-        $this->repeat_elements($repeated, $repeatsatstart, $repeatedoptions, 'noanswers', 'addanswers', QUESTION_NUMANS_ADD, get_string('addmoreanswers', 'qtype_splitset'));
+        $this->repeat_elements($repeated, $repeatsatstart, $repeatedoptions, 'noanswers', 'addanswers', QUESTION_NUMANS_ADD,
+                               get_string('addmoreanswers', 'qtype_splitset'));
 
-        // $mform->addElement( ... );
     }
 
     public function set_data($question) {
-        // TODO, preprocess the question definition so the data is ready to load into the form.
-        // You may not need this method at all, in which case you can delete it.
 
         if (!empty($question->options)) {
             $question->sets = $question->options->sets;
@@ -136,12 +138,8 @@ class qtype_splitset_edit_form extends question_edit_form {
     }
 
     public function validation($data, $files = array()) {
-        $errors = array();
 
-        // TODO, do extra validation on the data that came back from the form. E.g.
-        // if (/* Some test on $data['customfield']*/) {
-        //     $errors['customfield'] = get_string( ... );
-        // }
+        $errors = parent::validation($data, $files);
 
         if ($errors) {
             return $errors;

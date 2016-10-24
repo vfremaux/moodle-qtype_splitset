@@ -92,7 +92,10 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
                     $feedbackimage = $this->feedback_image($isgood);
                 }
 
-                $optionradio = '<input type="radio" name="'.$qa->get_qt_field_name($fieldname).'" value="'.$setid.'" '.$checked.' />';
+                $optionradio = '<input type="radio"
+                                       name="'.$qa->get_qt_field_name($fieldname).'"
+                                       value="'.$setid.'"
+                                       '.$checked.' />';
                 $result .= html_writer::tag('td', $optionradio.' '.$feedbackimage, array('class' => $classes));
             }
 

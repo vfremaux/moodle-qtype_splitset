@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
  * Checks file access for matching questions.
  */
 function qtype_splitset_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload) {
-    global $DB, $CFG;
+    global $CFG;
 
     require_once($CFG->libdir . '/questionlib.php');
     question_pluginfile($course, $context, 'qtype_splitset', $filearea, $args, $forcedownload);
