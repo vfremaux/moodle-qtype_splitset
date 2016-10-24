@@ -18,8 +18,9 @@
  * The editing form code for this question type.
  *
  * @package     qtype_splitset
- * @copyright   (C) 2006 onwards Valery Fremaux
- * @author      valery.fremaux@club-internet.fr
+ * @category    qtype
+ * @author      Valery Fremaux <valery.fremaux@gmail.com>
+ * @copyright   (C) 2006 onwards Valery Fremaux (http://www.mylearningfactory.com)
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 defined('MOODLE_INTERNAL') || die();
