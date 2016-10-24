@@ -83,7 +83,7 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
 
                 // Mark given response.
                 $fraction = (int) ($selected && ($selected == $setid));
-                $checked = ($fraction) ? 'checked="checked"' : '' ;
+                $checked = ($fraction) ? 'checked="checked"' : '';
 
                 if ($options->correctness && $selected) {
                     if ($fraction) {
@@ -105,7 +105,7 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
         $result .= html_writer::end_tag('tbody');
         $result .= html_writer::end_tag('table');
 
-        $result .= html_writer::end_tag('div'); // ablock
+        $result .= html_writer::end_tag('div');
 
         if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('div',

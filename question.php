@@ -72,7 +72,7 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
     }
 
     /**
-     * Computes a printable summary fro the question 
+     * Computes a printable summary fro the question
      */
     public function get_question_summary() {
         $question = $this->html_to_text($this->questiontext, $this->questiontextformat);
@@ -120,7 +120,9 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
 
         foreach ($this->itemorder as $key => $itemid) {
             if (array_key_exists('sub'.$key, $response) && $response['sub'.$key]) {
-                $matches[] = $this->html_to_text($this->items[$itemid], $this->itemformats[$itemid]) . ' -> ' . $this->sets[$response['sub'.$key]];
+                $qtext = $this->html_to_text($this->items[$itemid], $this->itemformats[$itemid]);
+                $qtext .= ' -> '.$this->sets[$response['sub'.$key]];
+                $matches[] = $qtext;
             }
         }
         if (empty($matches)) {
@@ -231,7 +233,7 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
     }
 
     /*
-     * compute grade by counting correct answered, bad answered and unanswered with penalty 
+     * compute grade by counting correct answered, bad answered and unanswered with penalty
      * @see matches for computation model
      */
     public function compute_final_grade($responses, $totaltries) {
@@ -243,7 +245,9 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
             $lastwrongindex = -1;
             $finallyright = false;
             foreach ($responses as $i => $response) {
-                if (!array_key_exists($fieldname, $response) || !$response[$fieldname] || $this->choices[$itemid] != $response[$fieldname]) {
+                if (!array_key_exists($fieldname, $response) ||
+                        !$response[$fieldname] ||
+                                $this->choices[$itemid] != $response[$fieldname]) {
                     $lastwrongindex = $i;
                     $finallyright = false;
                 } else {
@@ -265,16 +269,15 @@ class qtype_splitset_question extends question_graded_automatically_with_countba
 
     public function check_file_access($qa, $options, $component, $filearea, $args, $forcedownload) {
 
+        $areas = array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback');
+
         if ($component == 'qtype_slitset' && $filearea == 'subquestion') {
             $subqid = reset($args); // Itemid is sub question id.
             return array_key_exists($subqid, $this->items);
-
-        } else if ($component == 'question' && in_array($filearea, array('correctfeedback', 'partiallycorrectfeedback', 'incorrectfeedback'))) {
+        } else if ($component == 'question' && in_array($filearea, $areas)) {
             return $this->check_combined_feedback_file_access($qa, $options, $filearea);
-
         } else if ($component == 'question' && $filearea == 'hint') {
             return $this->check_hint_file_access($qa, $options, $args);
-
         } else {
             return parent::check_file_access($qa, $options, $component, $filearea, $args, $forcedownload);
         }

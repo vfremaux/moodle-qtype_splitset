@@ -28,23 +28,24 @@ defined('MOODLE_INTERNAL') || die();
 require_once(dirname(__FILE__) . '/../../../../config.php');
 
 global $CFG;
-require_once($CFG->libdir . '/simpletestlib.php');
-require_once($CFG->dirroot . '/question/type/splitset/questiontype.php');
+require_once($CFG->libdir.'/simpletestlib.php');
+require_once($CFG->dirroot.'/question/type/splitset/questiontype.php');
 
 class splitset_qtype_test extends UnitTestCase {
-    var $qtype;
 
-    function setUp() {
+    protected $qtype;
+
+    public function setUp() {
         $this->qtype = new splitset_qtype();
     }
 
-    function tearDown() {
+    public function tearDown() {
         $this->qtype = null;
     }
 
-    function test_name() {
+    public function test_name() {
         $this->assertEqual($this->qtype->name(), 'splitset');
     }
-    
+
     // TODO write unit tests for the other methods of the question type class.
 }

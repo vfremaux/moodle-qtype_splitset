@@ -36,25 +36,25 @@ class qtype_splitset_edit_form extends question_edit_form {
 
     public function definition_inner($mform) {
 
-        $options['2']= '2';
-        $options['3']= '3';
-        $options['4']= '4';
-        $options['5']= '5';
+        $options['2'] = '2';
+        $options['3'] = '3';
+        $options['4'] = '4';
+        $options['5'] = '5';
         $mform->addElement('select', 'sets', get_string('sets', 'qtype_splitset'), $options);
 
-        $mform->addElement('text', 'set1name', get_string('name1', 'qtype_splitset'), array('size'=>'50'));
+        $mform->addElement('text', 'set1name', get_string('name1', 'qtype_splitset'), array('size' => '50'));
         $mform->setType('name1', PARAM_CLEANHTML);
 
-        $mform->addElement('text', 'set2name', get_string('name2', 'qtype_splitset'), array('size'=>'50'));
+        $mform->addElement('text', 'set2name', get_string('name2', 'qtype_splitset'), array('size' => '50'));
         $mform->setType('name2', PARAM_CLEANHTML);
 
-        $mform->addElement('text', 'set3name', get_string('name3', 'qtype_splitset'), array('size'=>'50'));
+        $mform->addElement('text', 'set3name', get_string('name3', 'qtype_splitset'), array('size' => '50'));
         $mform->setType('name3', PARAM_CLEANHTML);
 
-        $mform->addElement('text', 'set4name', get_string('name4', 'qtype_splitset'), array('size'=>'50'));
+        $mform->addElement('text', 'set4name', get_string('name4', 'qtype_splitset'), array('size' => '50'));
         $mform->setType('name4', PARAM_CLEANHTML);
 
-        $mform->addElement('text', 'set5name', get_string('name5', 'qtype_splitset'), array('size'=>'50'));
+        $mform->addElement('text', 'set5name', get_string('name5', 'qtype_splitset'), array('size' => '50'));
         $mform->setType('name5', PARAM_CLEANHTML);
 
         $numoptions['0'] = get_string('numericnum', 'qtype_splitset');
@@ -85,7 +85,7 @@ class qtype_splitset_edit_form extends question_edit_form {
         $label = get_string('item', 'qtype_splitset');
         $repeated[] =& $mform->createElement('editor', 'item', $label, array('rows' => 5), $this->editoroptions);
 
-        $defaultsets = (isset($this->question->options->sets)) ? $this->question->options->sets : 2 ;
+        $defaultsets = (isset($this->question->options->sets)) ? $this->question->options->sets : 2;
 
         for ($i = 1; $i <= $defaultsets; $i++) {
             $setoptions[$i] = "$i";
@@ -121,7 +121,7 @@ class qtype_splitset_edit_form extends question_edit_form {
             $question->correctfeedback['format'] = $question->options->correctfeedbackformat;
             $question->partiallycorrectfeedback['text'] = $question->options->partiallycorrectfeedback;
             $question->partiallycorrectfeedback['format'] = $question->options->partiallycorrectfeedbackformat;
-             
+
             if (!empty($question->options->items)) {
                 $i = 0;
                 foreach ($question->options->items as $item) {

@@ -1,4 +1,19 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * The question type class for the splitset question type.
  *
@@ -6,7 +21,7 @@
  * @author valery.fremaux@club-internet.fr
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  * @package splitset
- *//** */
+ */
 
 define('NUMERIC_NUMBERING', 0);
 define('ALPHA_NUMBERING', 1);
@@ -18,17 +33,12 @@ define('ALPHASUP_NUMBERING', 2);
  * TODO give an overview of how the class works here.
  */
 class qtype_splitset extends question_type {
-    
-    // TODO think about whether you need to override the is_manual_graded or
-    // is_usable_by_random methods form the base class. Most the the time you
-    // Won't need to.
 
     /**
      * @return boolean to indicate success of failure.
      */
     public function get_question_options($question) {
         global $DB;
-        // TODO code to retrieve the extra data you stored in the database into.
 
         parent::get_question_options($question);
         $question->options = $DB->get_record('question_splitset', array('questionid' => $question->id));
@@ -49,7 +59,7 @@ class qtype_splitset extends question_type {
 
         $oldsubquestions = $DB->get_records('question_splitset_sub', array('questionid' => $question->id), 'id ASC');
 
-        // $subquestions will be an array with subquestion ids.
+        // Subquestions will be an array with subquestion ids.
         $subquestions = array();
 
         // Insert all the new question+answer pairs.
@@ -142,13 +152,13 @@ class qtype_splitset extends question_type {
 
         $question->shuffleitems = $questiondata->options->shuffleanswers;
         $this->initialise_combined_feedback($question, $questiondata, true);
-        
+
         $question->items = array();
         $question->choices = array();
         $question->sets = array();
 
         // Transfer set labels into question.
-        for ($i = 1; $i <= $questiondata->options->sets ; $i++){
+        for ($i = 1; $i <= $questiondata->options->sets; $i++) {
             $var = "set{$i}name";
             $question->sets[$i] = $questiondata->options->{$var};
         }
@@ -194,9 +204,9 @@ class qtype_splitset extends question_type {
 
             $responses = array();
             foreach ($q->choices as $choiceid => $choice) {
-                $portion = ($choiceid == $q->sets[$itemid]) / count($q->items;
-                $possible = $q->html_to_text($item, $q->itemformats[$itemid]) . ': ' . $choice, $portion);
-                $responses[$choiceid] = new question_possible_response($possible);
+                $portion = ($choiceid == $q->sets[$itemid]) / count($q->items);
+                $possible = $q->html_to_text($item, $q->itemformats[$itemid]) . ': ' . $choice;
+                $responses[$choiceid] = new question_possible_response($possible, $portion);
             }
             $responses[null] = question_possible_response::no_response();
 

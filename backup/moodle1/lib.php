@@ -44,9 +44,11 @@ class moodle1_qtype_splitset_handler extends moodle1_qtype_handler {
     public function process_question(array $data, array $raw) {
         global $CFG;
 
-        // populate the list of matches first to get their ids
-        // note that the field is re-populated on restore anyway but let us
-        // do our best to produce valid backup files
+        /*
+         * populate the list of matches first to get their ids
+         * note that the field is re-populated on restore anyway but let us
+         * do our best to produce valid backup files
+         */
         $itemids = array();
         if (isset($data['items']['item'])) {
             foreach ($data['items']['item'] as $item) {
@@ -54,16 +56,16 @@ class moodle1_qtype_splitset_handler extends moodle1_qtype_handler {
             }
         }
 
-        // convert match options
+        // Convert match options.
         $splitset = $data;
         $splitset['id'] = $this->converter->get_nextid();
         $this->write_xml('splitset', $splitset, array('/splitset/id'));
 
-        // convert subs
+        // Convert subs.
         $this->xmlwriter->begin_tag('splitsetsubs');
         if (isset($data['items']['item'])) {
             foreach ($data['items']['item'] as $item) {
-                // replay the upgrade step 2009072100
+                // Replay the upgrade step 2009072100.
                 if ($CFG->texteditors !== 'textarea') {
                     $item['answer'] = text_to_html($item['answer'], false, false, true);
                     $item['answerformat'] = FORMAT_HTML;
