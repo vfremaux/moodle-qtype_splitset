@@ -62,7 +62,7 @@ $string['splitset_help'] = '<p>the Split Set question is an easy to configure qu
     into sublists (from 2 up to 4).</p>
 
 <p>The teacher defines how many output set can be used and will
-    give a textual label for each set, such as "true/false", 
+    give a textual label for each set, such as "true/false",
     "allowed/forbidden", "consistant/not consistant", "little/medium/high",
 etc.</p>
 <p>Then he will provide the input set. Each input can be entered as a formatted

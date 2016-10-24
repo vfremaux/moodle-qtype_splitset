@@ -60,7 +60,7 @@ $string['splitset_help'] = '<p>La "question de répartition" propose une activit
     liste de propositions en entrée vers des sous-listes qualifiées (de 2 à 4).</p>
 
 <p>L\'enseignant définit combien d\'ensembles de sortie il désire utiliser
-    et qualifie les ensembles de sortie, par exemple "vrai/faux", 
+    et qualifie les ensembles de sortie, par exemple "vrai/faux",
     "permis/interdit", "pertinent/non pertinent", "faible/moyen/fort",
 etc.</p>
 <p>Il définit ensuite un ensemble de propositions d\'entrée sous forme de paragraphes

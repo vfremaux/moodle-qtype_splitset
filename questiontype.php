@@ -22,6 +22,7 @@
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  * @package splitset
  */
+defined('MOODLE_INTERNAL') || die();
 
 define('NUMERIC_NUMBERING', 0);
 define('ALPHA_NUMBERING', 1);
@@ -42,8 +43,8 @@ class qtype_splitset extends question_type {
 
         parent::get_question_options($question);
         $question->options = $DB->get_record('question_splitset', array('questionid' => $question->id));
-        $question->options->items = $DB->get_records('question_splitset_sub', array('questionid' => $question->id), 'id');        
-        
+        $question->options->items = $DB->get_records('question_splitset_sub', array('questionid' => $question->id), 'id');
+
         return true;
     }
 
