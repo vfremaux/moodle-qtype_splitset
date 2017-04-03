@@ -14,15 +14,15 @@
 // You should have received a copy of the GNU General Public License
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
-defined('MOODLE_INTERNAL') || die();
-
 /**
  * Defines the 'missingtype' question renderer class.
  *
- * @package    qtype_splitset
- * @copyright  2012 Valery Fremaux (valery.fremaux@gmail.com)
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_splitset
+ * @category    qtype
+ * @copyright   2012 Valery Fremaux (valery.fremaux@gmail.com)
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+defined('MOODLE_INTERNAL') || die();
 
 /**
  * This question renderer class is used when the actual question type of this
@@ -43,7 +43,7 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
         $result .= html_writer::tag('div', $question->format_questiontext($qa), array('class' => 'qtext'));
 
         $result .= html_writer::start_tag('div', array('class' => 'ablock'));
-        $result .= html_writer::start_tag('table', array('class' => 'answer'));
+        $result .= html_writer::start_tag('table', array('class' => 'answer generaltable', 'style' => 'width:100%'));
         $result .= html_writer::start_tag('tbody');
 
         $result .= html_writer::start_tag('tr', array('class' => 'header'));
@@ -60,7 +60,7 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
         foreach ($itemorder as $key => $itemid) {
 
             $result .= html_writer::start_tag('tr', array('class' => 'r' . $parity));
-            $fieldname = 'sub' . $key;
+            $fieldname = 'sub'.$key;
 
             $result .= html_writer::tag('td', $question->format_text(
                     $question->items[$itemid], $question->itemformats[$itemid],
@@ -73,17 +73,17 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
                 $selected = 0;
             }
 
-            foreach($question->sets as $setid => $set) {
+            foreach ($question->sets as $setid => $set) {
 
                 $classes = 'control';
                 $feedbackimage = '';
 
-                // mark good response
+                // Mark good response.
                 $isgood = (int) ($question->choices[$itemid] == $setid);
 
-                // mark given response
+                // Mark given response.
                 $fraction = (int) ($selected && ($selected == $setid));
-                $checked = ($fraction) ? 'checked="checked"' : '' ;
+                $checked = ($fraction) ? 'checked="checked"' : '';
 
                 if ($options->correctness && $selected) {
                     if ($fraction) {
@@ -92,7 +92,10 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
                     $feedbackimage = $this->feedback_image($isgood);
                 }
 
-                $optionradio = '<input type="radio" name="'.$qa->get_qt_field_name($fieldname).'" value="'.$setid.'" '.$checked.' />';
+                $optionradio = '<input type="radio"
+                                       name="'.$qa->get_qt_field_name($fieldname).'"
+                                       value="'.$setid.'"
+                                       '.$checked.' />';
                 $result .= html_writer::tag('td', $optionradio.' '.$feedbackimage, array('class' => $classes));
             }
 
@@ -102,7 +105,7 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
         $result .= html_writer::end_tag('tbody');
         $result .= html_writer::end_tag('table');
 
-        $result .= html_writer::end_tag('div'); // ablock
+        $result .= html_writer::end_tag('div');
 
         if ($qa->get_state() == question_state::$invalid) {
             $result .= html_writer::nonempty_tag('div',
