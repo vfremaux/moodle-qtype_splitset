@@ -15,22 +15,22 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Detailed version information for splitest question
+ * Version details.
  *
- * @package    qtype_splitset
- * @category   qtype
- * @author     Valery Fremaux <valery.fremaux@gmail.com>
- * @copyright  (C) 2006 Valery Fremaux <valery.fremaux@gmail.com>
- * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
+ * @package     qtype_splitset
+ * @category    qtype
+ * @copyright   (C) 2006 onwards Valery Fremaux (http://www.mylearningfactory.com)
+ * @author      Valery Fremaux <valery.fremaux@gmail.com>
+ * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version  = 2014121401;
-$plugin->requires  = 2016051900;
+$plugin->version = 2014121401;
+$plugin->requires = 2016051900;
 $plugin->component = 'qtype_splitset';
-$plugin->maturity  = MATURITY_RC;
-$plugin->release  = "3.1.0 (Build 2012112300)";
+$plugin->maturity = MATURITY_RC;
+$plugin->release = "3.1.0 (Build 2012112300)";
 
 // Non moodle attributes.
-$plugin->codeincrement = '3.1.0000';
+$plugin->codeincrement = '3.1.0001';
