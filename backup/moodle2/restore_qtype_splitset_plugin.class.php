@@ -38,7 +38,7 @@ class restore_qtype_splitset_plugin extends restore_qtype_plugin {
     protected function define_question_plugin_structure() {
         return array(
             new restore_path_element('splitset', $this->get_pathfor('/splitset')),
-            new restore_path_element('splitsetsub', $this->get_pathfor('/splitset/splitsetsubs/splitsetsub'))
+            new restore_path_element('splitsetsub', $this->get_pathfor('/splitsetsubs/splitsetsub'))
         );
     }
 
@@ -51,12 +51,14 @@ class restore_qtype_splitset_plugin extends restore_qtype_plugin {
         $data = (object)$data;
         $oldid = $data->id;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $questioncreated = $this->get_mappingid('question_created',
                 $this->get_old_parentid('question')) ? true : false;
 
-        // If the question has been created by restore, we need to create its
-        // qtype_splitset too
+        /*
+         * If the question has been created by restore, we need to create its
+         * qtype_splitset too
+         */
         if ($questioncreated) {
             $data->questionid = $this->get_new_parentid('question');
             $newitemid = $DB->insert_record('question_splitset', $data);
@@ -73,34 +75,38 @@ class restore_qtype_splitset_plugin extends restore_qtype_plugin {
         $data = (object)$data;
         $oldid = $data->id;
 
-        // Detect if the question is created or mapped
+        // Detect if the question is created or mapped.
         $oldquestionid   = $this->get_old_parentid('question');
         $newquestionid   = $this->get_new_parentid('question');
         $questioncreated = $this->get_mappingid('question_created', $oldquestionid) ? true : false;
 
         if ($questioncreated) {
-            // If the question has been created by restore, we need to create its
-            // question_splitset_sub too
+            /*
+             * If the question has been created by restore, we need to create its
+             * question_splitset_sub too
+             */
 
-            // Adjust some columns
-            $data->question = $newquestionid;
-            // Insert record
+            // Adjust some columns.
+            $data->questionid = $newquestionid;
+            // Insert record.
             $newitemid = $DB->insert_record('question_splitset_sub', $data);
-            // Create mapping (there are files and states based on this)
+            // Create mapping (there are files and states based on this).
             $this->set_mapping('question_splitset_sub', $oldid, $newitemid);
 
         } else {
-            // splitset questions require mapping of question_splitset_sub, because
-            // they are used by question_states->answer
+            /*
+             * splitset questions require mapping of question_splitset_sub, because
+             * they are used by question_states->answer
+             */
 
-            // Look for matching subquestion (by question, questiontext and answertext)
+            // Look for matching subquestion (by question, questiontext and answertext).
             $sub = $DB->get_record_select('question_splitset_sub', 'questionid = ? AND ' .
                     $DB->sql_compare_text('code') . ' = ' .
                     $DB->sql_compare_text('?').' AND item = ?',
                     array($newquestionid, $data->code, $data->item),
                     'id', IGNORE_MULTIPLE);
 
-            // Found, let's create the mapping
+            // Found, let's create the mapping.
             if ($sub) {
                 $this->set_mapping('question_splitset_sub', $oldid, $sub->id);
             } else {
@@ -125,10 +131,9 @@ class restore_qtype_splitset_plugin extends restore_qtype_plugin {
     }
 
     /**
-    * should not have anyhing to do here
+     * should not have anyhing to do here
      */
     protected function after_execute_question() {
-        global $DB;
     }
 
     /**
