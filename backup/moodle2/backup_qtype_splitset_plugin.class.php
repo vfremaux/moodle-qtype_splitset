@@ -58,7 +58,7 @@ class backup_qtype_splitset_plugin extends backup_qtype_plugin {
 
         // Now the own qtype tree.
         $splitsetsubs->add_child($splitsetsub);
-        $splitset->add_child($splitsetsubs);
+        $pluginwrapper->add_child($splitsetsubs);
         $pluginwrapper->add_child($splitset);
 
         // Set source to populate the data.

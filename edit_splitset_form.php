@@ -44,19 +44,19 @@ class qtype_splitset_edit_form extends question_edit_form {
         $mform->addElement('select', 'sets', get_string('sets', 'qtype_splitset'), $options);
 
         $mform->addElement('text', 'set1name', get_string('name1', 'qtype_splitset'), array('size' => '50'));
-        $mform->setType('name1', PARAM_CLEANHTML);
+        $mform->setType('set1name', PARAM_CLEANHTML);
 
         $mform->addElement('text', 'set2name', get_string('name2', 'qtype_splitset'), array('size' => '50'));
-        $mform->setType('name2', PARAM_CLEANHTML);
+        $mform->setType('set2name', PARAM_CLEANHTML);
 
         $mform->addElement('text', 'set3name', get_string('name3', 'qtype_splitset'), array('size' => '50'));
-        $mform->setType('name3', PARAM_CLEANHTML);
+        $mform->setType('set3name', PARAM_CLEANHTML);
 
         $mform->addElement('text', 'set4name', get_string('name4', 'qtype_splitset'), array('size' => '50'));
-        $mform->setType('name4', PARAM_CLEANHTML);
+        $mform->setType('set4name', PARAM_CLEANHTML);
 
         $mform->addElement('text', 'set5name', get_string('name5', 'qtype_splitset'), array('size' => '50'));
-        $mform->setType('name5', PARAM_CLEANHTML);
+        $mform->setType('set5name', PARAM_CLEANHTML);
 
         $numoptions['0'] = get_string('numericnum', 'qtype_splitset');
         $numoptions['1'] = get_string('alphanum', 'qtype_splitset');;
@@ -81,8 +81,9 @@ class qtype_splitset_edit_form extends question_edit_form {
         $mform->setType('incorrectfeedback', PARAM_CLEANHTML);
         $mform->addHelpButton('incorrectfeedback', 'incorrectfeedback', 'qtype_splitset');
 
+        $mform->addElement('header', 'answerhdr', get_string('itemstosort', 'qtype_splitset'));
+
         $repeated = array();
-        $repeated[] =& $mform->createElement('header', 'answerhdr', get_string('itemno', 'qtype_splitset', '{no}'));
         $label = get_string('item', 'qtype_splitset');
         $repeated[] =& $mform->createElement('editor', 'item', $label, array('rows' => 5), $this->editoroptions);
 
