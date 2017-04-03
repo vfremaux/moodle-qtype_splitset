@@ -38,7 +38,7 @@ class restore_qtype_splitset_plugin extends restore_qtype_plugin {
     protected function define_question_plugin_structure() {
         return array(
             new restore_path_element('splitset', $this->get_pathfor('/splitset')),
-            new restore_path_element('splitsetsub', $this->get_pathfor('/splitset/splitsetsubs/splitsetsub'))
+            new restore_path_element('splitsetsub', $this->get_pathfor('/splitsetsubs/splitsetsub'))
         );
     }
 
@@ -87,7 +87,7 @@ class restore_qtype_splitset_plugin extends restore_qtype_plugin {
              */
 
             // Adjust some columns.
-            $data->question = $newquestionid;
+            $data->questionid = $newquestionid;
             // Insert record.
             $newitemid = $DB->insert_record('question_splitset_sub', $data);
             // Create mapping (there are files and states based on this).

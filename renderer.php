@@ -43,7 +43,7 @@ class qtype_splitset_renderer extends qtype_with_combined_feedback_renderer {
         $result .= html_writer::tag('div', $question->format_questiontext($qa), array('class' => 'qtext'));
 
         $result .= html_writer::start_tag('div', array('class' => 'ablock'));
-        $result .= html_writer::start_tag('table', array('class' => 'answer'));
+        $result .= html_writer::start_tag('table', array('class' => 'answer generaltable', 'style' => 'width:100%'));
         $result .= html_writer::start_tag('tbody');
 
         $result .= html_writer::start_tag('tr', array('class' => 'header'));
