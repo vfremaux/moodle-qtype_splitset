@@ -1,4 +1,19 @@
 <?php
+// This file is part of Moodle - http://moodle.org/
+//
+// Moodle is free software: you can redistribute it and/or modify
+// it under the terms of the GNU General Public License as published by
+// the Free Software Foundation, either version 3 of the License, or
+// (at your option) any later version.
+//
+// Moodle is distributed in the hope that it will be useful,
+// but WITHOUT ANY WARRANTY; without even the implied warranty of
+// MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+// GNU General Public License for more details.
+//
+// You should have received a copy of the GNU General Public License
+// along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+
 /**
  * The question type class for the splitset question type.
  *
@@ -6,7 +21,8 @@
  * @author valery.fremaux@club-internet.fr
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  * @package splitset
- *//** */
+ */
+defined('MOODLE_INTERNAL') || die();
 
 define('NUMERIC_NUMBERING', 0);
 define('ALPHA_NUMBERING', 1);
@@ -18,23 +34,17 @@ define('ALPHASUP_NUMBERING', 2);
  * TODO give an overview of how the class works here.
  */
 class qtype_splitset extends question_type {
-    
-    // TODO think about whether you need to override the is_manual_graded or
-    // is_usable_by_random methods form the base class. Most the the time you
-    // Won't need to.
 
     /**
      * @return boolean to indicate success of failure.
      */
-    function get_question_options($question) {
-    	global $DB;
-        // TODO code to retrieve the extra data you stored in the database into
-        
-        // $question->options.
+    public function get_question_options($question) {
+        global $DB;
+
         parent::get_question_options($question);
         $question->options = $DB->get_record('question_splitset', array('questionid' => $question->id));
-        $question->options->items = $DB->get_records('question_splitset_sub', array('questionid' => $question->id), 'id');        
-        
+        $question->options->items = $DB->get_records('question_splitset_sub', array('questionid' => $question->id), 'id');
+
         return true;
     }
 
@@ -42,20 +52,18 @@ class qtype_splitset extends question_type {
      * Save the units and the answers associated with this question.
      * @return boolean to indicate success of failure.
      */
-    function save_question_options($question) {
-    	global $DB;
-    	
-    	// print_object($question);
+    public function save_question_options($question) {
+        global $DB;
 
         $context = $question->context;
         $result = new stdClass();
 
         $oldsubquestions = $DB->get_records('question_splitset_sub', array('questionid' => $question->id), 'id ASC');
 
-        // $subquestions will be an array with subquestion ids
+        // Subquestions will be an array with subquestion ids.
         $subquestions = array();
 
-        // Insert all the new question+answer pairs
+        // Insert all the new question+answer pairs.
         foreach ($question->item as $key => $questiontext) {
             if ($questiontext['text'] == '') {
                 continue;
@@ -65,9 +73,11 @@ class qtype_splitset extends question_type {
             $subquestion = array_shift($oldsubquestions);
             if (!$subquestion) {
                 $subquestion = new stdClass();
-                // Determine a unique random code
+
+                // Determine a unique random code.
                 $subquestion->code = rand(1, 999999);
-                while ($DB->record_exists('question_splitset_sub', array('code' => $subquestion->code, 'questionid' => $question->id))) {
+                $params = array('code' => $subquestion->code, 'questionid' => $question->id);
+                while ($DB->record_exists('question_splitset_sub', $params)) {
                     $subquestion->code = rand(1, 999999);
                 }
                 $subquestion->questionid = $question->id;
@@ -77,7 +87,11 @@ class qtype_splitset extends question_type {
                 $subquestion->id = $DB->insert_record('question_splitset_sub', $subquestion);
             }
 
-            $subquestion->questiontext = $this->import_or_save_files($questiontext, $context, 'qtype_splitset', 'subquestion', $subquestion->id);
+            $subquestion->questiontext = $this->import_or_save_files($questiontext,
+                                                                     $context,
+                                                                     'qtype_splitset',
+                                                                     'subquestion',
+                                                                     $subquestion->id);
             $subquestion->item = $questiontext['text'];
             $subquestion->itemformat = $questiontext['format'];
             $subquestion->answer = trim($question->set[$key]);
@@ -87,7 +101,7 @@ class qtype_splitset extends question_type {
             $subquestions[] = $subquestion->id;
         }
 
-        // Delete old subquestions records
+        // Delete old subquestions records.
         $fs = get_file_storage();
         foreach ($oldsubquestions as $oldsub) {
             $fs->delete_area_files($context->id, 'qtype_splitset', 'subquestion', $oldsub->id);
@@ -139,23 +153,23 @@ class qtype_splitset extends question_type {
 
         $question->shuffleitems = $questiondata->options->shuffleanswers;
         $this->initialise_combined_feedback($question, $questiondata, true);
-        
+
         $question->items = array();
         $question->choices = array();
         $question->sets = array();
 
-		// transfer set labels into question        
-        for ($i = 1; $i <= $questiondata->options->sets ; $i++){
-        	$var = "set{$i}name";
-        	$question->sets[$i] = $questiondata->options->{$var};
+        // Transfer set labels into question.
+        for ($i = 1; $i <= $questiondata->options->sets; $i++) {
+            $var = "set{$i}name";
+            $question->sets[$i] = $questiondata->options->{$var};
         }
-        
-		// transfer items and expected answers into question        
+
+        // Transfer items and expected answers into question.
         foreach ($questiondata->options->items as $itemid => $item) {
             $question->items[$itemid] = $item->item;
             $question->itemformats[$itemid] = 0 + @$item->itemformat;
             $question->choices[$itemid] = $item->answer;
-        }        
+        }
     }
 
     protected function make_hint($hint) {
@@ -168,13 +182,12 @@ class qtype_splitset extends question_type {
      * @param integer $questionid The question being deleted
      * @return boolean to indicate success of failure.
      */
-    function delete_question($questionid, $contextid) {
-    	global $DB;
-        // TODO delete any    
-        
+    public function delete_question($questionid, $contextid) {
+        global $DB;
+
         $DB->delete_records('question_splitset', array('questionid' => "$questionid"));
         $DB->delete_records('question_splitset_sub', array('questionid' => "$questionid"));
-        
+
         parent::delete_question($questionid, $contextid);
     }
 
@@ -192,8 +205,9 @@ class qtype_splitset extends question_type {
 
             $responses = array();
             foreach ($q->choices as $choiceid => $choice) {
-                $responses[$choiceid] = new question_possible_response(
-                    $q->html_to_text($item, $q->itemformats[$itemid]) . ': ' . $choice, ($choiceid == $q->sets[$itemid]) / count($q->items));
+                $portion = ($choiceid == $q->sets[$itemid]) / count($q->items);
+                $possible = $q->html_to_text($item, $q->itemformats[$itemid]) . ': ' . $choice;
+                $responses[$choiceid] = new question_possible_response($possible, $portion);
             }
             $responses[null] = question_possible_response::no_response();
 
@@ -210,8 +224,8 @@ class qtype_splitset extends question_type {
 
         parent::move_files($questionid, $oldcontextid, $newcontextid);
 
-        $subquestionids = $DB->get_records_menu('question_splitset_sub',
-                array('question' => $questionid), 'id', 'id,1');
+        $params = array('question' => $questionid);
+        $subquestionids = $DB->get_records_menu('question_splitset_sub', $params, 'id', 'id,1');
         foreach ($subquestionids as $subquestionid => $notused) {
             $fs->move_area_files_to_new_context($oldcontextid,
                     $newcontextid, 'qtype_splitset', 'subquestion', $subquestionid);
@@ -236,5 +250,3 @@ class qtype_splitset extends question_type {
         $this->delete_files_in_hints($questionid, $contextid);
     }
 }
-
-?>

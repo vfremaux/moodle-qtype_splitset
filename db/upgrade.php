@@ -30,7 +30,7 @@ defined('MOODLE_INTERNAL') || die();
  * @param int $oldversion the version we are upgrading from.
  */
 function xmldb_qtype_splitset_upgrade($oldversion) {
-    global $CFG, $DB;
+    global $DB;
 
     $dbman = $DB->get_manager();
 
@@ -40,7 +40,7 @@ function xmldb_qtype_splitset_upgrade($oldversion) {
     if ($oldversion < 2014121401) {
         $table = new xmldb_table('question_splitset');
 
-        // add set5name if missing
+        // Add set5name if missing.
         $field = new xmldb_field('set5name', XMLDB_TYPE_CHAR, 50, null, XMLDB_NOTNULL, null, null, 'set4name');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
@@ -59,17 +59,20 @@ function xmldb_qtype_splitset_upgrade($oldversion) {
             }
         }
 
-        $field = new xmldb_field('correctfeedbackformat', XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'correctfeedback');
+        $field = new xmldb_field('correctfeedbackformat', XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, XMLDB_NOTNULL,
+                                 null, 0, 'correctfeedback');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        $field = new xmldb_field('partiallycorrectfeedback', XMLDB_TYPE_TEXT, 'big', null, null, null, null, 'correctfeedbackformat');
+        $field = new xmldb_field('partiallycorrectfeedback', XMLDB_TYPE_TEXT, 'big', null, null, null,
+                                 null, 'correctfeedbackformat');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        $field = new xmldb_field('partiallycorrectfeedbackformat', XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'partiallycorrectfeedback');
+        $field = new xmldb_field('partiallycorrectfeedbackformat', XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,
+                                 0, 'partiallycorrectfeedback');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
@@ -81,18 +84,21 @@ function xmldb_qtype_splitset_upgrade($oldversion) {
             $field->set_attributes(XMLDB_TYPE_TEXT, 'big', null, null, null, null, 'partiallycorrectfeedbackformat');
             $dbman->rename_field($table, $field, 'incorrectfeedback');
         } else {
-            $field = new xmldb_field('incorrectfeedback', XMLDB_TYPE_TEXT, 'big', null, XMLDB_NOTNULL, null, null, 'partiallycorrectfeedbackformat');
+            $field = new xmldb_field('incorrectfeedback', XMLDB_TYPE_TEXT, 'big', null, XMLDB_NOTNULL, null,
+                                     null, 'partiallycorrectfeedbackformat');
             if (!$dbman->field_exists($table, $field)) {
                 $dbman->add_field($table, $field);
             }
         }
 
-        $field = new xmldb_field('incorrectfeedbackformat', XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'incorrectfeedback');
+        $field = new xmldb_field('incorrectfeedbackformat', XMLDB_TYPE_INTEGER, '4', XMLDB_UNSIGNED, XMLDB_NOTNULL,
+                                 null, 0, 'incorrectfeedback');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        $field = new xmldb_field('shownumcorrect', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, XMLDB_NOTNULL, null, 0, 'incorrectfeedbackformat');
+        $field = new xmldb_field('shownumcorrect', XMLDB_TYPE_INTEGER, '3', XMLDB_UNSIGNED, XMLDB_NOTNULL, null,
+                                 0, 'incorrectfeedbackformat');
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
