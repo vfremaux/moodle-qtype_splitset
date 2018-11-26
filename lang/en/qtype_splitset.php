@@ -23,9 +23,6 @@
  * @package splitset
  */
 
-// Privacy.
-$string['privacy:metadata'] = 'The SplitSet Quesiton type plugin does not store any personal data about any user.';
-
 $string['addingsplitset'] = 'Adding a set splitting question.';
 $string['addmoreanswers'] = 'Add answers';
 $string['alphanum'] = 'a,b,c... ';
