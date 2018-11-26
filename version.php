@@ -27,7 +27,7 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2017040200;
-$plugin->requires = 2016051900;
+$plugin->requires = 2015111000;
 $plugin->component = 'qtype_splitset';
 $plugin->maturity = MATURITY_RC;
 $plugin->release = "3.1.0 (Build 2017040200)";
