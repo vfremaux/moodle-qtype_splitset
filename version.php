@@ -27,10 +27,10 @@
 defined('MOODLE_INTERNAL') || die();
 
 $plugin->version = 2017040200;
-$plugin->requires = 2017110800;
+$plugin->requires = 2017050500;
 $plugin->component = 'qtype_splitset';
 $plugin->maturity = MATURITY_RC;
-$plugin->release = "3.4.0 (Build 2017040200)";
+$plugin->release = "3.3.0 (Build 2017040200)";
 
 // Non moodle attributes.
-$plugin->codeincrement = '3.4.0001';
+$plugin->codeincrement = '3.3.0001';
