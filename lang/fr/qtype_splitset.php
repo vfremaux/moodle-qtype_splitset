@@ -23,6 +23,9 @@
  * @package splitset
  */
 
+// Privacy.
+$string['privacy:metadata'] = 'Le type de question de répartition ne stocke pas directement de données relatives aux utilisateurs.';
+
 $string['addingsplitset'] = 'Ajouter une question de répartition';
 $string['addmoreanswers'] = 'Ajouter des réponses';
 $string['alphanum'] = 'a,b,c... ';

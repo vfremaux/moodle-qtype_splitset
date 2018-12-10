@@ -15,34 +15,32 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Split set question type upgrade code.
+ * Privacy Subsystem implementation for qtype_splitset.
  *
- * @package    qtype
- * @subpackage splitset
- * @copyright  2011 valery.fremaux@gmail.com
+ * @package    qtype_splitset
+ * @copyright  2018 Valery Fremaux <valery.fremaux@gmail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
+
+namespace qtype_splitset\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Upgrade code for the splitset question type.
- * @param int $oldversion the version we are upgrading from.
+ * Privacy Subsystem for qtype_splitset implementing null_provider.
+ *
+ * @copyright  2018 Vamlery Fremaux <valery.fremaux@gmail.com>
+ * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-function xmldb_qtype_spliteset_upgrade($oldversion) {
-    global $CFG;
+class provider implements \core_privacy\local\metadata\null_provider {
 
-    // Automatically generated Moodle v3.2.0 release upgrade line.
-    // Put any upgrade step following this.
-
-    // Automatically generated Moodle v3.3.0 release upgrade line.
-    // Put any upgrade step following this.
-
-    // Automatically generated Moodle v3.4.0 release upgrade line.
-    // Put any upgrade step following this.
-
-    // Automatically generated Moodle v3.5.0 release upgrade line.
-    // Put any upgrade step following this.
-
-    return true;
+    /**
+     * Get the language string identifier with the component's language
+     * file to explain why this plugin stores no data.
+     *
+     * @return  string
+     */
+    public static function get_reason() : string {
+        return 'privacy:metadata';
+    }
 }
