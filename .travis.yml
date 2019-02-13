@@ -16,22 +16,15 @@ cache:
     - $HOME/.npm
 
 php:
- - 7.1
  - 7.2
 
 env:
-<<<<<<< HEAD
- matrix:
-  - DB=mysqli MOODLE_BRANCH=MOODLE_32_STABLE
-  - DB=pgsql MOODLE_BRANCH=MOODLE_32_STABLE
 
-=======
   global:
-    - MOODLE_BRANCH=MOODLE_35_STABLE
+    - MOODLE_BRANCH=MOODLE_36_STABLE
   matrix:
     - DB=mysqli
     - DB=pgsql
->>>>>>> MOODLE_35_STABLE
 
 before_install:
   - phpenv config-rm xdebug.ini
@@ -46,7 +39,7 @@ install:
 
 script:
   - moodle-plugin-ci phplint
-  - moodle-plugin-ci phpcpd
+#  - moodle-plugin-ci phpcpd
   - moodle-plugin-ci phpmd
   - moodle-plugin-ci codechecker
   - moodle-plugin-ci validate
