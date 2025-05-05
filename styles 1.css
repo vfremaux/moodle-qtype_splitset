@@ -1,0 +1,12 @@
+/*
+TODO If your question type requires some CSS, you can put it in this file.
+If not, you should delete this file.
+*/
+
+.feedbackok{
+	border-color:#B9F9BB;
+}
+
+.feedbackmissed{
+	border-color:#FBBAB7;
+}
