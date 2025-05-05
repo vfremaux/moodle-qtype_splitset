@@ -19,7 +19,7 @@
  *
  * @package    qtype_splitset
  * @copyright &copy; 2006 Valery Fremaux
- * @author valery.fremaux@club-internet.fr
+ * @author valery.fremaux@gmail.com
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 

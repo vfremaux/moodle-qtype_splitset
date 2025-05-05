@@ -29,7 +29,7 @@ defined('MOODLE_INTERNAL') || die();
  * Upgrade code for the splitset question type.
  * @param int $oldversion the version we are upgrading from.
  */
-function xmldb_qtype_spliteset_upgrade($oldversion) {
+function xmldb_qtype_splitset_upgrade($oldversion) {
     global $CFG;
 
     // Automatically generated Moodle v3.2.0 release upgrade line.

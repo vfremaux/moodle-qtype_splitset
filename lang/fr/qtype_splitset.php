@@ -18,7 +18,7 @@
  * The language strings for the QTYPENAME question type.
  *
  * @copyright &copy; 2011 valery.fremaux
- * @author valery.fremaux@club-internet.fr
+ * @author valery.fremaux@gmail.com
  * @license http://www.gnu.org/copyleft/gpl.html GNU Public License
  * @package splitset
  */
